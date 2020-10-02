@@ -2,6 +2,7 @@ import sys
 import os
 from src.rewards import Rewards
 from src.log import HistLog
+from pushover import Client
 import logging
 
 DRIVERS_DIR                = "drivers"
@@ -118,6 +119,10 @@ def __main(arg0, arg1):
         logging.debug("")
 
         hist_log.write(rewards.completion, rewards.search_hist)
+
+        if len(Client().user_key) > 0 :
+            Client().send_message("Please check BingRewards.pl, there has been a problem.", title="Bing Rewards Error!", sound="none")
+
         raise
 
 if __name__ == "__main__":

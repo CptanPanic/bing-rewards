@@ -15,6 +15,7 @@ import random
 from datetime import datetime, timedelta
 import json
 import ssl
+from pushover import Client
 
 
 class Rewards:
@@ -823,6 +824,7 @@ class Rewards:
             driver.get(self.__DASHBOARD_URL)
             #once pointsbreakdown link is clickable, page is loaded
             WebDriverWait(driver, self.__WEB_DRIVER_WAIT_LONG).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="rx-user-status-action"]/span/ng-transclude')))
+            time.sleep(5);
             stats = driver.find_elements_by_xpath('//mee-rewards-counter-animation//span')
 
             earned_index = 4
@@ -841,6 +843,9 @@ class Rewards:
                 self.__sys_out("Streak count: " + stats[streak_index].text, 2)
                 self.__sys_out(stats[days_till_bonus_index].text, 2, end=True) # streak details, ex. how many days remaining, bonus earned
                 self.__sys_out("Available points: " + stats[avail_index].text, 2)
+				
+                if len(Client().user_key) > 0 :
+                    Client().send_message("Points earned: " + stats[earned_index].text.replace(" ", ""), title="BingRewards Completed", sound="none")
 
             else:
                 self.__sys_out("Summary", 1, flush=True)
@@ -848,6 +853,9 @@ class Rewards:
                 self.__sys_out("Streak count: " + stats[streak_index+1].text, 2)
                 self.__sys_out(stats[days_till_bonus_index+1].text, 2, end=True) # streak details, ex. how many days remaining, bonus earned
                 self.__sys_out("Available points: " + stats[avail_index+1].text, 2)
+                
+                if len(Client().user_key) > 0 :
+                    Client().send_message("Points earned: " + stats[earned_index+1].text.replace(" ", ""), title="BingRewards Completed", sound="none")
 
         except Exception as e:
             print('    Error checking rewards status - ', e)
