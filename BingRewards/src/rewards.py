@@ -845,7 +845,7 @@ class Rewards:
                 self.__sys_out("Available points: " + stats[avail_index].text, 2)
 				
                 if len(Client().user_key) > 0 :
-                    Client().send_message("Points earned: " + stats[earned_index].text.replace(" ", ""), title="BingRewards Completed", sound="none")
+                    Client().send_message("Points earned: " + stats[earned_index].text.replace(" ", "") + " Available points: " + stats[avail_index].text, title="BingRewards Completed", sound="none")
 
             else:
                 self.__sys_out("Summary", 1, flush=True)
@@ -855,7 +855,7 @@ class Rewards:
                 self.__sys_out("Available points: " + stats[avail_index+1].text, 2)
                 
                 if len(Client().user_key) > 0 :
-                    Client().send_message("Points earned: " + stats[earned_index+1].text.replace(" ", ""), title="BingRewards Completed", sound="none")
+                    Client().send_message("Points earned: " + stats[earned_index+1].text.replace(" ", "") + " Available points: " + stats[avail_index].text, title="BingRewards Completed", sound="none")
 
         except Exception as e:
             print('    Error checking rewards status - ', e)
